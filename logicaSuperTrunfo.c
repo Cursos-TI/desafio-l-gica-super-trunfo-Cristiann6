@@ -12,7 +12,14 @@ int main() {
   float Poder, Poder2;
   
   //variavel para a ecolha do menu
-  int escolha;
+  int escolha1, escolha2;
+
+    float valor1_c1, valor2_c1; // Valores dos 2 atributos escolhidos para a Carta 1
+    float valor1_c2, valor2_c2; // Valores dos 2 atributos escolhidos para a Carta 2
+    float soma_c1, soma_c2;
+    char atributo1_nome[50], atributo2_nome[50];
+    char resultado_final[50];
+
 
 printf("Carta 1: \n");
 
@@ -74,117 +81,90 @@ scanf(" %d", &Turistico2);
 float inverso_densidade2 = (DensidadeP2 > 0) ? (1.0f / DensidadeP2) : 0.0f;
 Poder2 = (float)Populacao2 + Area2 + PIB2 + (float)Turistico2 + PIB_capital2 + inverso_densidade2;
 
+    // escolha do primeiro atributo
+    printf("-----------------\n");
+    printf("Escolha o primeiro atributo:\n");
+    printf("1 - População \n");
+    printf("2 - Área \n");
+    printf("3 - PIB \n");
+    printf("4 - Turísticos\n");
+    printf("5 - Densidade\n");
+    printf("6 Super Poder\n"); 
+    printf("-----------------------\n");
+    printf("Opção 1: ");
+    if (scanf("%d", &escolha1) != 1 || escolha1 < 1 || escolha1 > 6) {
+        printf("ERRO: Escolha de atributo 1 inválida.\n");
+        return 0;
+    }
 
-printf("\n----------\n");
-printf("Escolha o atributo para a comparação:\n");
-printf("1 - População\n");
-printf("2 - Área\n");
-printf("3 - PIB\n");
-printf("4 - Número de Pontos Turísticos\n");
-printf("5 - Densidade Demográfica\n");
-printf("6 - Super Poder\n"); 
-printf("-----------\n");
-printf("Opção: ");
-scanf("%d", &escolha);
+    // escolha do segundo atributo
+    printf("\nEscolha o segundo atributo (diferente de %d):\n", escolha1);
+    printf("---------------------------------\n");
+    
+    if (escolha1 != 1) printf("1- População ");
+    if (escolha1 != 2) printf("2- Área ");
+    if (escolha1 != 3) printf("3- PIB ");
+    if (escolha1 != 4) printf("4- Turísticos ");
+    if (escolha1 != 5) printf("5- Densidade ");
+    if (escolha1 != 6) printf("6- Super Poder\n");
+    printf("---------------------------------\n");
+    printf("Opção 2: ");
+    scanf("%d", &escolha2);
 
-printf("\nRESULTADO DA RODADA\n");
+    if (escolha2 < 1 || escolha2 > 6 || escolha2 == escolha1) {
+        printf("\nERRO: A segunda escolha é inválida ou igual à primeira. Encerrando o programa.\n");
+        return 0;
+    }
+      
+    
+    switch (escolha1) {
+        case 1: valor1_c1 = (float)Populacao; valor1_c2 = (float)Populacao2; strcpy(atributo1_nome, "População"); break;
+        case 2: valor1_c1 = Area; valor1_c2 = Area2; strcpy(atributo1_nome, "Área"); break;
+        case 3: valor1_c1 = PIB; valor1_c2 = PIB2; strcpy(atributo1_nome, "PIB"); break;
+        case 4: valor1_c1 = (float)Turistico; valor1_c2 = (float)Turistico2; strcpy(atributo1_nome, "Pontos Turísticos"); break;
+        case 5: valor1_c1 = DensidadeP; valor1_c2 = DensidadeP2; strcpy(atributo1_nome, "Densidade Demográfica"); break;
+        case 6: valor1_c1 = Poder; valor1_c2 = Poder2; strcpy(atributo1_nome, "Super Poder"); break;
+    }
+    
+    switch (escolha2) {
+        case 1: valor2_c1 = (float)Populacao; valor2_c2 = (float)Populacao2; strcpy(atributo2_nome, "População"); break;
+        case 2: valor2_c1 = Area; valor2_c2 = Area2; strcpy(atributo2_nome, "Área"); break;
+        case 3: valor2_c1 = PIB; valor2_c2 = PIB2; strcpy(atributo2_nome, "PIB"); break;
+        case 4: valor2_c1 = (float)Turistico; valor2_c2 = (float)Turistico2; strcpy(atributo2_nome, "Pontos Turísticos"); break;
+        case 5: valor2_c1 = DensidadeP; valor2_c2 = DensidadeP2; strcpy(atributo2_nome, "Densidade Demográfica"); break;
+        case 6: valor2_c1 = Poder; valor2_c2 = Poder2; strcpy(atributo2_nome, "Super Poder"); break;
+    }
 
-// Variáveis para exibir o resultado
-char atributo_escolhido[50];
-char resultado_final[50];
+    // soma e decisao final
+    soma_c1 = valor1_c1 + valor2_c1;
+    soma_c2 = valor1_c2 + valor2_c2;
+    
+    if (soma_c1 > soma_c2) {
+        strcpy(resultado_final, Estado);
+    } else if (soma_c2 > soma_c1) {
+        strcpy(resultado_final, Estado2);
+    } else {
+        strcpy(resultado_final, "Empate!");
+    }
 
 
-switch (escolha) {
-    case 1:
-        strcpy(atributo_escolhido, "População");
-        if (Populacao > Populacao2) {
-            strcpy(resultado_final, Estado);
-        } else if (Populacao2 > Populacao) {
-            strcpy(resultado_final, Estado2);
-        } else {
-            strcpy(resultado_final, "Empate!");
-        }
-        printf("Atributo: %s\n", atributo_escolhido);
-        printf("%s: %lu | %s: %lu\n", Estado, Populacao, Estado2, Populacao2);
-        break;
+    // ------------------------------------
+    // Exibição do resultado final
+    // ------------------------------------
+    printf("-------------\n");
+    printf("  Resultado da rodada dupla\n");
 
-    case 2: 
-        strcpy(atributo_escolhido, "Área");
-        if (Area > Area2) {
-            strcpy(resultado_final, Estado);
-        } else if (Area2 > Area) {
-            strcpy(resultado_final,  Estado2);
-        } else {
-            strcpy(resultado_final, "Empate!");
-        }
-        printf("Atributo: %s\n", atributo_escolhido);
-        printf("%s: %.2f | %s: %.2f\n",  Estado, Area,  Estado2, Area2);
-        break;
+    printf("\n ATRIBUTO 1: %s\n", atributo1_nome);
+    printf("  %s: %.2f | %s: %.2f\n", Estado, valor1_c1, Estado2, valor1_c2);
+    
+    printf("\n ATRIBUTO 2: %s\n", atributo2_nome);
+    printf("  %s: %.2f | %s: %.2f\n", Estado, valor2_c1, Estado2, valor2_c2);
+    
+    printf("SOMA DOS ATRIBUTOS:\n");
+    printf("  %s: %.2f | %s: %.2f\n", Estado, soma_c1, Estado2, soma_c2);
 
-    case 3: 
-        strcpy(atributo_escolhido, "PIB");
-        if (PIB > PIB2) {
-            strcpy(resultado_final,  Estado);
-        } else if (PIB2 > PIB) {
-            strcpy(resultado_final, Estado2);
-        } else {
-            strcpy(resultado_final, "Empate!");
-        }
-        printf("Atributo: %s\n", atributo_escolhido);
-        printf("%s: %.2f | %s: %.2f\n",  Estado, PIB,  Estado2, PIB2);
-        break;
-
-    case 4: 
-       strcpy(atributo_escolhido, "Pontos Turísticos");
-        if (Turistico > Turistico2) {
-            strcpy(resultado_final,  Estado);
-        } else if (Turistico2 > Turistico) {
-            strcpy(resultado_final,  Estado2);
-        } else {
-            strcpy(resultado_final, "Empate!");
-        }
-        printf("Atributo: %s\n", atributo_escolhido);
-        printf("%s: %d | %s: %d\n",  Estado, Turistico,  Estado2, Turistico2);
-        break;
-
-    case 5: 
-        strcpy(atributo_escolhido, "Densidade Demográfica (hab/km²)");
-        
-        if (DensidadeP < DensidadeP2) {
-            strcpy(resultado_final,  Estado);
-        } else if (DensidadeP2 < DensidadeP) {
-            strcpy(resultado_final,  Estado2); 
-        } else {
-            strcpy(resultado_final, "Empate!");
-        }
-        printf("Atributo: %s\n", atributo_escolhido);
-        printf("%s: %.2f | %s: %.2f\n",  Estado, DensidadeP,  Estado2, DensidadeP2);
-        break;
-
-    case 6 :
-        strcpy(atributo_escolhido, "Super Poder");
-        if (Poder > Poder2) {
-            strcpy(resultado_final, Estado);
-        } else if (Poder2 > Poder) {
-            strcpy(resultado_final,  Estado2);
-        } else {
-            strcpy(resultado_final, "Empate!");
-        }
-        printf("Atributo: %s\n", atributo_escolhido);
-        printf("%s: %.2f | %s: %.2f\n",  Estado, Poder,  Estado2, Poder2);
-        break;
-
-    default:
-        strcpy(resultado_final, "Opção inválida!");
-        printf("ERRO: Escolha uma opção entre 1 e 6.\n");
-        return 0; 
-}
-
-if (strcmp(resultado_final, "Opção inválida!") != 0) {
-    printf("\nVENCEDOR: %s\n", resultado_final);
-}
-
-printf("-------------\n\n");
+    printf("\ VENCEDOR: %s \n", resultado_final);
+    printf("Parabéns ao vencedor\n\n");
 
   // Área para exibição da carta 1
 printf("estado: %s - código: %s\n", Estado, Codigo);
