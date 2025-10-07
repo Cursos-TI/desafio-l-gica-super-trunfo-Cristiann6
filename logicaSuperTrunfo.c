@@ -147,10 +147,7 @@ Poder2 = (float)Populacao2 + Area2 + PIB2 + (float)Turistico2 + PIB_capital2 + i
         strcpy(resultado_final, "Empate!");
     }
 
-
-    // ------------------------------------
     // Exibição do resultado final
-    // ------------------------------------
     printf("-------------\n");
     printf("  Resultado da rodada dupla\n");
 
